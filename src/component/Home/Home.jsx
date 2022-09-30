@@ -23,7 +23,7 @@ const Home = () => {
         <div className="navbar">
           <div className="menu">
             <h3 className="logo">
-              NEWS-YOG <span>Labs</span>
+              <span><img src={require("../../assests/applogo.png") } alt="logo"/></span>
             </h3>
             <motion.div
               whileHover={{ scale: 1.1 }}
@@ -41,7 +41,7 @@ const Home = () => {
             <header>
               <div className="overlay">
                 <div className="inner">
-                  <h2 className="title">Geo-parsing Gazzeteer</h2>
+                  <h2 className="title">Text Geo-Coder</h2>
                   <p>
                     Geo-parsing Gazzeteer is a tool that helps you to find the
                     enitites that are related to the location.

@@ -4,6 +4,10 @@ import "./Demo.css";
 import Loader from "../Loader/Loader";
 import { motion } from "framer-motion";
 
+import Mapbox from "../Map/Map";
+
+
+
 const Demo = () => {
   const [search, setSearch] = React.useState("");
   const [data, setData] = React.useState(null);
@@ -11,6 +15,7 @@ const Demo = () => {
   const [status, setStatus] = React.useState("search");
   const [searchData, setSearchData] = React.useState(null);
   const [loader, setLoader] = React.useState(false);
+  const [isclose, setIsclose] = React.useState(false);
 
   const fetchData = (e) => {
     setLoader(true);
@@ -52,6 +57,7 @@ const Demo = () => {
   };
 
   const render = () => {
+    
     switch (status) {
       case "search":
         return (
@@ -99,7 +105,14 @@ const Demo = () => {
 
   return (
     <div className="demo-main-container">
+      <Mapbox />
       <div className="demo-search">
+        <motion.i
+          whileHover={{ scale: 1.1 }}
+          whileTap={{ scale: 0.9 }}
+          class="fa-regular fa-circle-xmark close-button"
+          onClick={() => setStatus("search")}
+        ></motion.i>
         <div className="demo-search-subcontainer">
           <motion.div
             whileHover={{ scale: 1.1 }}
@@ -117,7 +130,7 @@ const Demo = () => {
             whileTap={{ scale: 0.9 }}
             className="demo-search-subcontainer-item"
             onClick={() => {
-              setStatus("jsonData");
+              manipulatedSearch && setStatus("jsonData");
             }}
           >
             <i className="fa fa-eye icon-item" aria-hidden="true"></i>
