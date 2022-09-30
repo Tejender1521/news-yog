@@ -74,14 +74,17 @@ const Demo = () => {
         return (
           <div className="result-container">
             {manipulatedSearch?.map((item, index) => {
-              console.log(item);
               return (
                 <>
                   <span
                     key={index}
                     style={{
-                      background: data[item] ? "pink" : "transparent",
+                      color: data[item] ? "#FF5B00" : "black",
                       padding: data[item] ? "0 .2rem 0 .2rem" : "",
+                      fontWeight: data[item] ? "bold" : "400",
+                      textDecoration: data[item] ? "underline" : "",
+                      textDecorationColor: data[item] ? "#0E185F" : "",
+                      textDecorationThickness: data[item] ? "2px" : "",
                     }}
                   >
                     {item}
@@ -106,55 +109,67 @@ const Demo = () => {
   return (
     <div className="demo-main-container">
       <Mapbox />
-      <div className="demo-search">
-        <motion.i
-          whileHover={{ scale: 1.1 }}
-          whileTap={{ scale: 0.9 }}
-          class="fa-regular fa-circle-xmark close-button"
-          onClick={() => setStatus("search")}
-        ></motion.i>
-        <div className="demo-search-subcontainer">
-          <motion.div
+      {!isclose ? (
+        <div className="demo-search">
+          <motion.i
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
-            className="demo-search-subcontainer-item"
-            onClick={() => {
-              setStatus(manipulatedSearch ? "result" : "search");
-            }}
-          >
-            <i className="fa fa-search icon-item" aria-hidden="true"></i>
-            <p className="icon-item-text">Search</p>
-          </motion.div>
-          <motion.div
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.9 }}
-            className="demo-search-subcontainer-item"
-            onClick={() => {
-              manipulatedSearch && setStatus("jsonData");
-            }}
-          >
-            <i className="fa fa-eye icon-item" aria-hidden="true"></i>
-            <p className="icon-item-text">Result</p>
-          </motion.div>
+            class="fa-solid fa-chevron-left close-button"
+            onClick={() => setIsclose(true)}
+          ></motion.i>
+
+          <div className="demo-search-subcontainer">
+            <motion.div
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
+              className="demo-search-subcontainer-item"
+              onClick={() => {
+                setStatus(manipulatedSearch ? "result" : "search");
+              }}
+            >
+              <i className="fa fa-search icon-item" aria-hidden="true"></i>
+              <p className="icon-item-text">Search</p>
+            </motion.div>
+            <motion.div
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
+              className="demo-search-subcontainer-item"
+              onClick={() => {
+                manipulatedSearch && setStatus("jsonData");
+              }}
+            >
+              <i className="fa fa-eye icon-item" aria-hidden="true"></i>
+              <p className="icon-item-text">Result</p>
+            </motion.div>
+          </div>
+          {!loader ? render() : <Loader />}
+          {/* {render()} */}
+          <div className="demo-footer">
+            <motion.button
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
+              onClick={() => {
+                if (!manipulatedSearch) fetchData();
+                else {
+                  setStatus("search");
+                  setManipulatedSearch(null);
+                }
+              }}
+            >
+              {!manipulatedSearch ? "Submit" : "Back"}
+            </motion.button>
+          </div>
         </div>
-        {!loader ? render() : <Loader />}
-        {/* {render()} */}
-        <div className="demo-footer">
-          <motion.button
+      ) : (
+        <div className="demo-nosearch">
+          <motion.i
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
-            onClick={() => {
-              if (!manipulatedSearch) fetchData();
-              else {
-                setStatus("search");
-                setManipulatedSearch(null);
-              }
-            }}
-          >
-            {!manipulatedSearch ? "Submit" : "Back"}
-          </motion.button>
+            class="fa-solid fa-chevron-right close-button"
+            onClick={() => setIsclose(false)}
+          ></motion.i>
         </div>
-      </div>
+      )}
     </div>
   );
 };

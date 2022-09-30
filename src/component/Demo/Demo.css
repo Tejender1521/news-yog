@@ -14,10 +14,19 @@
   width: 42vw;
   height: 100vh;
   background-color: white;
-  border-radius: 1rem;
   z-index: 1;
   position: relative;
 }
+
+
+.demo-nosearch{
+  width: 3.5vw;
+  height: 100vh;
+  background-color: white;
+  z-index: 1;
+  position: relative;
+}
+
 
 .demo-search-subcontainer{
   display: flex;
@@ -93,7 +102,7 @@
 .result-container{
   overflow-y: scroll;
   width: 41vw;
-  height: 62vh;
+  height: 74vh;
   padding: 1rem;
   position: relative;
 
