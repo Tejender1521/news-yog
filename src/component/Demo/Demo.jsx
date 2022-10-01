@@ -44,7 +44,7 @@ const Demo = () => {
     const tempObj = {};
     const tempData = JSON.parse(data.replaceAll("'", '"'));
     setSearchData(tempData);
-    tempData.map((item, index) => {
+    tempData?.map((item, index) => {
       tempObj[item.word] = true;
     });
     setData(tempObj);

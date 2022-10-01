@@ -41,10 +41,9 @@ const Home = () => {
             <header>
               <div className="overlay">
                 <div className="inner">
-                  <h2 className="title">Text Geo-Coder</h2>
+                  <h2 className="title">Text Geocoder</h2>
                   <p>
-                    Geo-parsing Gazzeteer is a tool that helps you to find the
-                    enitites that are related to the location.
+                    Text Mining tool that helps you to find relevent locations for a given text.
                   </p>
                   <motion.button
                     whileHover={{ scale: 1.1 }}
