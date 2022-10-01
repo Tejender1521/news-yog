@@ -2,18 +2,15 @@ import * as React from "react";
 import Map, { Marker } from "react-map-gl";
 import "./map.css";
 import { motion } from "framer-motion";
-// added the following 6 lines.
-import mapboxgl from "mapbox-gl";
+import mapboxgl from "mapbox-gl/dist/mapbox-gl";
 
-// The following is required to stop "npm build" from transpiling mapbox code.
-// notice the exclamation point in the import.
-// @ts-ignore
-// eslint-disable-next-line import/no-webpack-loader-syntax, import/no-unresolved
-mapboxgl.workerClass = require("worker-loader!mapbox-gl/dist/mapbox-gl-csp-worker").default;
+// eslint-disable-next-line import/no-webpack-loader-syntax
+import MapboxWorker from "worker-loader!mapbox-gl/dist/mapbox-gl-csp-worker";
+
 export default function Mapbox(props) {
   return (
     <Map
-      mapboxAccessToken="pk.eyJ1IjoidGVqZW5kZXIiLCJhIjoiY2w4cTU3OXV5MGMxeDNwcHJ2Nmt3N3RrdSJ9.CBLRR6afC69Vs7Xy1fxF6Q"
+      mapboxAccessToken={process.env.REACT_APP_MAP_KEY}
       initialViewState={{
         longitude: 75.6340804153019,
         latitude: 26.91026351703445,
@@ -61,10 +58,3 @@ export default function Mapbox(props) {
     </Map>
   );
 }
-
-// The following is required to stop "npm build" from transpiling mapbox code.
-// notice the exclamation point in the import.
-// @ts-ignore
-// eslint-disable-next-line import/no-webpack-loader-syntax, import/no-unresolved
-mapboxgl.workerClass =
-  require("worker-loader!mapbox-gl/dist/mapbox-gl-csp-worker").default;
