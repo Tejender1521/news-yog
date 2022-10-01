@@ -5,8 +5,8 @@ import Loader from "../Loader/Loader";
 import { motion } from "framer-motion";
 
 import Mapbox from "../Map/Map";
-
-
+import { tempNewsData } from "./tempNewsData";
+import Highlighter from "react-highlight-words";
 
 const Demo = () => {
   const [search, setSearch] = React.useState("");
@@ -18,37 +18,42 @@ const Demo = () => {
   const [isclose, setIsclose] = React.useState(false);
 
   const fetchData = (e) => {
+    console.log(search.substring(0, 8));
     setLoader(true);
-    if (search.length <= 0) return;
-    var myHeaders = new Headers();
-    myHeaders.append("Content-Type", "application/json");
+    if (search.length <= 0 || loader) return;
+    setTimeout(() => {
+      manipulateData(tempNewsData[search.substring(0, 8)]);
+    }, 2000);
 
-    var raw = JSON.stringify({
-      key: search,
-    });
+    // var myHeaders = new Headers();
+    // myHeaders.append("Content-Type", "application/json");
 
-    var requestOptions = {
-      method: "POST",
-      headers: myHeaders,
-      body: raw,
-      redirect: "follow",
-    };
+    // var raw = JSON.stringify({
+    //   key: search,
+    // });
 
-    fetch("http://localhost:5000/mordecai", requestOptions)
-      .then((response) => response.json())
-      .then((result) => manipulateData(result))
-      .catch((error) => console.log("error", error));
+    // var requestOptions = {
+    //   method: "POST",
+    //   headers: myHeaders,
+    //   body: raw,
+    //   redirect: "follow",
+    // };
+
+    // fetch("http://localhost:5000/mordecai", requestOptions)
+    //   .then((response) => response.json())
+    //   .then((result) => manipulateData(result))
+    //   .catch((error) => console.log("error", error));
   };
 
   const manipulateData = (data) => {
-    const tempObj = {};
-    const tempData = JSON.parse(data.replaceAll("'", '"'));
+    let tempData = data;
+    // const tempData = JSON.parse(data.replaceAll("'", '"'));
     setSearchData(tempData);
-    tempData?.map((item, index) => {
-      tempObj[item.word] = true;
+    tempData = tempData?.map((item, index) => {
+      return item.word;
     });
-    setData(tempObj);
-    const tempManipulatedSearch = search.replaceAll(".", " ").split(" ");
+    setData(tempData);
+    const tempManipulatedSearch = search;
     setTimeout(() => {
       setManipulatedSearch(tempManipulatedSearch);
       setStatus("result");
@@ -57,7 +62,6 @@ const Demo = () => {
   };
 
   const render = () => {
-    
     switch (status) {
       case "search":
         return (
@@ -73,7 +77,7 @@ const Demo = () => {
       case "result":
         return (
           <div className="result-container">
-            {manipulatedSearch?.map((item, index) => {
+            {/* {manipulatedSearch?.map((item, index) => {
               return (
                 <>
                   <span
@@ -92,7 +96,23 @@ const Demo = () => {
                   {index !== manipulatedSearch.length - 1 && <span> </span>}
                 </>
               );
-            })}
+            })} */}
+          
+              <Highlighter
+                searchWords={data}
+                autoEscape={true}
+                highlightStyle={{
+                  color: "#FF5B00",
+                  padding: "0 .2rem 0 .2rem",
+                  fontWeight: "bold",
+                  textDecoration: "underline",
+                  textDecorationColor: "#0E185F",
+                  textDecorationThickness: "2px",
+                  backgroundColor: "white",
+                }}
+                textToHighlight={search}
+              />
+            
           </div>
         );
       case "jsonData":
@@ -108,7 +128,7 @@ const Demo = () => {
 
   return (
     <div className="demo-main-container">
-      <Mapbox />
+      <Mapbox data={searchData} />
       {!isclose ? (
         <div className="demo-search">
           <motion.i
