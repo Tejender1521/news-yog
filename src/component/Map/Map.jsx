@@ -1,12 +1,19 @@
 import * as React from "react";
-import Map, {Marker } from "react-map-gl";
-import './map.css'
+import Map, { Marker } from "react-map-gl";
+import "./map.css";
 import { motion } from "framer-motion";
-export default function Mapbox(props) {
+// added the following 6 lines.
+import mapboxgl from "mapbox-gl";
 
+// The following is required to stop "npm build" from transpiling mapbox code.
+// notice the exclamation point in the import.
+// @ts-ignore
+// eslint-disable-next-line import/no-webpack-loader-syntax, import/no-unresolved
+mapboxgl.workerClass = require("worker-loader!mapbox-gl/dist/mapbox-gl-csp-worker").default;
+export default function Mapbox(props) {
   return (
     <Map
-      mapboxAccessToken="pk.eyJ1IjoidGVqZW5kZXIiLCJhIjoiY2w4bzhudnMwMDZlbDNvcWx6aWhjdmN1eiJ9.vclIgy8FL1JN4jxIFl5msQ"
+      mapboxAccessToken="pk.eyJ1IjoidGVqZW5kZXIiLCJhIjoiY2w4cTU3OXV5MGMxeDNwcHJ2Nmt3N3RrdSJ9.CBLRR6afC69Vs7Xy1fxF6Q"
       initialViewState={{
         longitude: 75.6340804153019,
         latitude: 26.91026351703445,
@@ -20,9 +27,6 @@ export default function Mapbox(props) {
         bottom: 0,
       }}
       mapStyle="mapbox://styles/mapbox/streets-v9"
-      onClick={(e) => {
-        console.log(e);
-      }}
     >
       {props?.data &&
         props?.data?.map((item, index) => {
@@ -57,3 +61,10 @@ export default function Mapbox(props) {
     </Map>
   );
 }
+
+// The following is required to stop "npm build" from transpiling mapbox code.
+// notice the exclamation point in the import.
+// @ts-ignore
+// eslint-disable-next-line import/no-webpack-loader-syntax, import/no-unresolved
+mapboxgl.workerClass =
+  require("worker-loader!mapbox-gl/dist/mapbox-gl-csp-worker").default;

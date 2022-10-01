@@ -18,7 +18,7 @@ const Demo = () => {
   const [isclose, setIsclose] = React.useState(false);
 
   const fetchData = (e) => {
-    console.log(search.substring(0, 8));
+
     setLoader(true);
     if (search.length <= 0 || loader) return;
     setTimeout(() => {
