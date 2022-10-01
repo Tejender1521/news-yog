@@ -251,8 +251,8 @@ export const tempNewsData = {
       country_conf: 0.9528109,
       geo: {
         admin1: "Rajasthan",
-        lat: "23.5204",
-        lon: "87.3119",
+        lat: "26.8518",
+        lon: "75.7862",
         country_code3: "IND",
         geonameid: "1272175",
         place_name: "Durgapur",
