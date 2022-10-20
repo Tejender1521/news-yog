@@ -5,7 +5,6 @@ import Loader from "../Loader/Loader";
 import { motion } from "framer-motion";
 
 import Mapbox from "../Map/Map";
-import { tempNewsData } from "./tempNewsData";
 import Highlighter from "react-highlight-words";
 
 const Demo = () => {
@@ -18,36 +17,36 @@ const Demo = () => {
   const [isclose, setIsclose] = React.useState(false);
 
   const fetchData = (e) => {
-
     setLoader(true);
     if (search.length <= 0 || loader) return;
-    setTimeout(() => {
-      manipulateData(tempNewsData[search.substring(0, 8)]);
-    }, 2000);
 
-    // var myHeaders = new Headers();
-    // myHeaders.append("Content-Type", "application/json");
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
 
-    // var raw = JSON.stringify({
-    //   key: search,
-    // });
+    var raw = JSON.stringify({
+      key: search,
+    });
 
-    // var requestOptions = {
-    //   method: "POST",
-    //   headers: myHeaders,
-    //   body: raw,
-    //   redirect: "follow",
-    // };
+    var requestOptions = {
+      method: "POST",
+      headers: myHeaders,
+      body: raw,
+      redirect: "follow",
+    };
 
-    // fetch("http://localhost:5000/mordecai", requestOptions)
-    //   .then((response) => response.json())
-    //   .then((result) => manipulateData(result))
-    //   .catch((error) => console.log("error", error));
+    fetch("http://13.127.36.126:5000/mordecai", requestOptions)
+      .then((response) => response.json())
+      .then((result) => {
+        manipulateData(result);
+      })
+      .catch((error) => {
+        console.log("error", error);
+        setLoader(false);
+      });
   };
 
   const manipulateData = (data) => {
-    let tempData = data;
-    // const tempData = JSON.parse(data.replaceAll("'", '"'));
+    let tempData = JSON.parse(data.replaceAll("'", '"'));
     setSearchData(tempData);
     tempData = tempData?.map((item, index) => {
       return item.word;
@@ -97,22 +96,21 @@ const Demo = () => {
                 </>
               );
             })} */}
-          
-              <Highlighter
-                searchWords={data}
-                autoEscape={true}
-                highlightStyle={{
-                  color: "#FF5B00",
-                  padding: "0 .2rem 0 .2rem",
-                  fontWeight: "bold",
-                  textDecoration: "underline",
-                  textDecorationColor: "#0E185F",
-                  textDecorationThickness: "2px",
-                  backgroundColor: "white",
-                }}
-                textToHighlight={search}
-              />
-            
+
+            <Highlighter
+              searchWords={data}
+              autoEscape={true}
+              highlightStyle={{
+                color: "#FF5B00",
+                padding: "0 .2rem 0 .2rem",
+                fontWeight: "bold",
+                textDecoration: "underline",
+                textDecorationColor: "#0E185F",
+                textDecorationThickness: "2px",
+                backgroundColor: "white",
+              }}
+              textToHighlight={search}
+            />
           </div>
         );
       case "jsonData":
@@ -134,7 +132,7 @@ const Demo = () => {
           <motion.i
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
-            class="fa-solid fa-chevron-left close-button"
+            className="fa-solid fa-chevron-left close-button"
             onClick={() => setIsclose(true)}
           ></motion.i>
 
@@ -185,7 +183,7 @@ const Demo = () => {
           <motion.i
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
-            class="fa-solid fa-chevron-right close-button"
+            className="fa-solid fa-chevron-right close-button"
             onClick={() => setIsclose(false)}
           ></motion.i>
         </div>
