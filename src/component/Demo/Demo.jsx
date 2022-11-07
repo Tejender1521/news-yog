@@ -34,7 +34,7 @@ const Demo = () => {
       redirect: "follow",
     };
 
-    fetch("http://13.127.36.126:5000/mordecai", requestOptions)
+    fetch("http://13.127.36.126:5000/nycoder", requestOptions)
       .then((response) => response.json())
       .then((result) => {
         manipulateData(result);
