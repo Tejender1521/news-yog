@@ -23,7 +23,7 @@ const Home = () => {
         <div className="navbar">
           <div className="menu">
             <h3 className="logo">
-              <span><img src={require("../../assests/applogo.png") } alt="logo"/></span>
+              {/* <span><img src={require("../../assests/applogo.png") } alt="logo"/></span> */}
             </h3>
             <motion.div
               whileHover={{ scale: 1.1 }}

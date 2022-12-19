@@ -26,7 +26,6 @@ const Demo = () => {
     var raw = JSON.stringify({
       key: search,
     });
-
     var requestOptions = {
       method: "POST",
       headers: myHeaders,
@@ -34,10 +33,11 @@ const Demo = () => {
       redirect: "follow",
     };
 
-    fetch("http://13.127.36.126:5000/nycoder", requestOptions)
+    fetch("http://13.127.36.126:5000/nycoder_spacy", requestOptions)
       .then((response) => response.json())
       .then((result) => {
         manipulateData(result);
+        console.log(result);
       })
       .catch((error) => {
         console.log("error", error);
@@ -76,27 +76,6 @@ const Demo = () => {
       case "result":
         return (
           <div className="result-container">
-            {/* {manipulatedSearch?.map((item, index) => {
-              return (
-                <>
-                  <span
-                    key={index}
-                    style={{
-                      color: data[item] ? "#FF5B00" : "black",
-                      padding: data[item] ? "0 .2rem 0 .2rem" : "",
-                      fontWeight: data[item] ? "bold" : "400",
-                      textDecoration: data[item] ? "underline" : "",
-                      textDecorationColor: data[item] ? "#0E185F" : "",
-                      textDecorationThickness: data[item] ? "2px" : "",
-                    }}
-                  >
-                    {item}
-                  </span>
-                  {index !== manipulatedSearch.length - 1 && <span> </span>}
-                </>
-              );
-            })} */}
-
             <Highlighter
               searchWords={data}
               autoEscape={true}
