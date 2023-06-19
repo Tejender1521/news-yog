@@ -4,10 +4,18 @@ import "./map.css";
 import { motion } from "framer-motion";
 import mapboxgl from "mapbox-gl/dist/mapbox-gl";
 
+import "mapbox-gl/dist/mapbox-gl.css";
+
 // eslint-disable-next-line import/no-webpack-loader-syntax
-import MapboxWorker from "worker-loader!mapbox-gl/dist/mapbox-gl-csp-worker";
+// import MapboxWorker from "worker-loader!mapbox-gl/dist/mapbox-gl-csp-worker";
+
+// eslint-disable-next-line import/no-webpack-loader-syntax
+mapboxgl.workerClass = require('worker-loader!mapbox-gl/dist/mapbox-gl-csp-worker').default;
 
 export default function Mapbox(props) {
+  const data = props?.data;
+
+  
   return (
     <Map
       mapboxAccessToken={process.env.REACT_APP_MAP_KEY}
@@ -25,14 +33,16 @@ export default function Mapbox(props) {
       }}
       mapStyle="mapbox://styles/mapbox/streets-v9"
     >
-      {props?.data &&
-        props?.data?.map((item, index) => {
-          // if(!item?.geo) return <></>
+      {data &&
+        Object.keys(data)?.map((item, index) => {
+          const lat = data[item].place_data.geometry.coordinates[1];
+          const lon = data[item].place_data.geometry.coordinates[0];
+
           return (
             <Marker
               key={index}
-              latitude={item?.geo?.lat || 26.91026351703445}
-              longitude={item?.geo?.lon || 75.6340804153019}
+              latitude={lat || 26.91026351703445}
+              longitude={lon || 75.6340804153019}
             >
               <motion.img
                 whileHover={{ scale: 1.4 }}
@@ -44,17 +54,6 @@ export default function Mapbox(props) {
             </Marker>
           );
         })}
-      {/* <Popup
-        
-        latitude={"26.91026351703445"}
-        longitude={"75.6340804153019"}
-      >
-        <img
-          src={require("../../assests/mapbox-icon.png")}
-          alt=""
-          className="tooltip"
-        />
-      </Popup> */}
     </Map>
   );
 }

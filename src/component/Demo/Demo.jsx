@@ -16,7 +16,7 @@ const Demo = () => {
   const [loader, setLoader] = React.useState(false);
   const [isclose, setIsclose] = React.useState(false);
 
-  const fetchData = (e) => {
+  const fetchData = async (e) => {
     setLoader(true);
     if (search.length <= 0 || loader) return;
 
@@ -33,24 +33,40 @@ const Demo = () => {
       redirect: "follow",
     };
 
-    fetch("http://13.127.36.126:5000/nycoder_spacy", requestOptions)
-      .then((response) => response.json())
-      .then((result) => {
-        manipulateData(result);
-        console.log(result);
-      })
-      .catch((error) => {
-        console.log("error", error);
-        setLoader(false);
-      });
+    try {
+      let data = await fetch(
+        "https://trfmodel.coi6htut061eo.ap-south-1.cs.amazonlightsail.com/geocoder",
+        requestOptions
+      );
+
+      data = await data.json();
+
+      data = data.replaceAll("None", null);
+
+      manipulateData(data);
+    } catch (error) {
+      console.log("error", error);
+      setLoader(false);
+    }
+
+    // .then((response) => {
+    //   console.log(response);
+    //   return response.json();
+    // })
+    // .then((result) => {
+    //   // console.log(result);
+    //   manipulateData(result);
+    // })
+    // .catch((error) => {
+    // console.log("error", error);
+    // setLoader(false);
+    // });
   };
 
   const manipulateData = (data) => {
-    let tempData = JSON.parse(data.replaceAll("'", '"'));
+    let tempData = JSON.parse(data.replaceAll('"', "").replaceAll("'", '"'));
     setSearchData(tempData);
-    tempData = tempData?.map((item, index) => {
-      return item.word;
-    });
+    tempData = Object.keys(tempData);
     setData(tempData);
     const tempManipulatedSearch = search;
     setTimeout(() => {
